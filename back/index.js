@@ -7,11 +7,12 @@ const express = require('express'),
     mongoose = require('mongoose'),
     bcrypt = require('bcrypt'),
     jwt = require('jsonwebtoken'),
-    io = new Server(server)
+    io = new Server(server),
+    mongoKey = config.get('mongoSecretKey')
 
 
 async function startServer(){
-    mongoose.connect(config.get('mongoSecretKey'), {
+    mongoose.connect(mongoKey, {
         useNewUrlParser: true,
         useUnifiedTopology: true
     })
