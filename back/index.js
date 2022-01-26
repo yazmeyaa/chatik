@@ -1,4 +1,5 @@
 const express = require('express'),
+    bodyParser = require('body-parser'),
     http = require('http'),
     config = require('config'),
     app = express(),
@@ -8,7 +9,8 @@ const express = require('express'),
     bcrypt = require('bcrypt'),
     jwt = require('jsonwebtoken'),
     io = new Server(server),
-    mongoKey = config.get('mongoSecretKey')
+    mongoKey = config.get('mongoSecretKey'),
+    urlencodedParser = bodyParser.json()
 
 
 async function startServer(){
@@ -32,3 +34,19 @@ async function startServer(){
 
 startServer()
 
+
+app.use(urlencodedParser, (req, res, next) =>{
+    res.header("Access-Control-Allow-Origin", "*")
+    res.header("Access-Control-Allow-Methods", "*")
+    res.header("Access-Control-Allow-Headers", "authorization, Origin, Content-type")
+    if(req.method == "OPTIONS"){
+        return res.status(200).send("ok");
+    }
+    next();
+})
+
+app.post('/auth', (req, res)=>{
+    const {username} = req.body
+    console.log(username)
+    return res.status(200).send({message: '123'})
+})

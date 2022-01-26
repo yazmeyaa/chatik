@@ -37,8 +37,7 @@ export const LoginWindow = styled.div`
 export const Text = styled.span`
     &{
         text-transform: uppercase;
-        font-weight: 800;
-        
+        font-weight: 500;
         font-size: ${fluidTypography(320, 1920, 30, 22)};
     }
 `
@@ -49,8 +48,9 @@ export const UsernameArea = styled.input`
         box-sizing: border-box;
         font-size: ${fluidTypography(320, 1920, 22, 12)};
         padding: 5px 10px;
-        border: 2px solid #58751b;
-        background-color: #131a06;
+        border: ${props => {return props.error ? '2px solid red' : '2px solid #58751b'}};
+        box-shadow: ${props => {return props.error ? '0px 0px 10px red' : 'none'}};
+        background-color: ${props => {return props.error ? '#2b090c' : '#131a06'}};
         border-radius: 12px;
         opacity: 1;
         transition: 0.3s ease;
@@ -62,6 +62,9 @@ export const UsernameArea = styled.input`
     }
     &:focus{
         outline: none;
+        border-color: yellowgreen;
+        box-shadow: 0px 0px 10px yellowgreen;
+        
     }
     &:focus::placeholder{
         transition: opacity 0.3s ease;
@@ -70,13 +73,13 @@ export const UsernameArea = styled.input`
     &:-webkit-autofill{
         background-color: transparent;
     }
-`
+    
+    `
 
 export const LoginButton = styled.button`
     &{
         width: fit-content;
         color: #58751b;
-        cursor: pointer;
         background: #131a06;
         text-transform: uppercase;
         font-weight: 800;
@@ -86,10 +89,19 @@ export const LoginButton = styled.button`
         transition: .3s;
         border-radius: 12px;
     }
-    &:hover{
+    &:hover, &:focus{
         background-color: yellowgreen;
         border-color: yellowgreen;
         box-shadow: 0px 0px 15px yellowgreen;
+        color: black;
+        outline: none;
+        cursor: pointer;
+    }
+    &:disabled{
+        background-color: gray;
+        border: darkgray;
+        cursor: default;
+        box-shadow: none;
         color: black;
     }
 `
@@ -101,7 +113,7 @@ export const RememberMe = styled.div`
     }
 
     &>input{
-
+        
     }
     
     &>span{
