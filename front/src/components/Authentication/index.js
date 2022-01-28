@@ -1,13 +1,14 @@
 import React, { useRef, useState } from 'react';
 import { Background, LoginWindow, UsernameArea, LoginButton, Text, RememberMe } from './styled.js'
+import Cookies from 'js-cookie'
 
 export default function Authentication() {
     const userName = useRef()
     const [isLoading, setLoading] = useState(false)
-    const [rememberMe, setRemember] = useState(false)
+    const rememberMe = useRef()
     const [hasError, setError] = useState(false)
     
-    const handleLogin = async (data) => {
+    const handleLogin = async (data, remember) => {
 
         setLoading(true)
 
@@ -18,17 +19,21 @@ export default function Authentication() {
             credentials: 'same-origin',
             headers: {
                 'Content-Type': 'application/json'
-              },
-              body: JSON.stringify({
-                  username: data
-              })
+            },
+            body: JSON.stringify({
+                username: data,
+                rememberMe: remember
+            })
         })
         .then((res)=>{
+            console.log(res.headers)
+            Cookies.get("")
             return res.json()
         })
+        .then((res)=>{
+            console.log(res)
+        })
         .catch(e => console.error(e))
-
-        console.log(response)
         setLoading(false)
 
 
@@ -41,27 +46,25 @@ export default function Authentication() {
 
                     <Text>who are you?</Text>
                     <UsernameArea type='textarea'
-                     autoComplete='off' 
-                     placeholder='username' 
-                     name='username' 
-                     ref={userName}
-                     error={hasError}
-                     onFocus={()=>{
+                    autoComplete='off' 
+                    placeholder='username' 
+                    autoFocus
+                    name='username' 
+                    ref={userName}
+                    error={hasError}
+                    onFocus={()=>{
                         if(hasError){
                             setError(false)
                         }
-                     }} />
+                    }} />
                     <RememberMe>
-                        <input type='checkbox' name='rememberMe' checked={rememberMe} onChange={()=>{
-                            setRemember( last => last = !last)
-                            console.log(rememberMe)
-                        }}/>
+                        <input type='checkbox' ref={rememberMe}/>
                         <span>remember me</span>
                     </RememberMe>
                     <LoginButton disabled={isLoading} type='submit' onClick={()=>{
                         
                         if(userName.current.value){
-                            handleLogin(userName.current.value)
+                            handleLogin(userName.current.value, rememberMe.current.checked)
                         } else{
                             setError(true)
                         }

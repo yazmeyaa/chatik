@@ -1,6 +1,6 @@
 import styled from 'styled-components'
 
-const fluidTypography = (vMin, vMax, fMin, fMax) => {
+const fluidTypography = (vMin, vMax, fMax, fMin) => {
     return `calc( ( 100vw - ${vMin}px ) / ( ${vMax} - ${vMin} ) * ( ${fMax} - ${fMin} ) + ${fMin}px )`
 }
 
@@ -38,16 +38,17 @@ export const Text = styled.span`
     &{
         text-transform: uppercase;
         font-weight: 500;
-        font-size: ${fluidTypography(320, 1920, 30, 22)};
+        font-size: ${fluidTypography(320, 1920, 22, 30)};
     }
 `
 
 export const UsernameArea = styled.input`
     &{
+        min-width: 290px;
         color: white;
         box-sizing: border-box;
-        font-size: ${fluidTypography(320, 1920, 22, 12)};
-        padding: 5px 10px;
+        font-size: ${fluidTypography(320, 1920, 12, 22)};
+        padding: 0.5rem 1rem;
         border: ${props => {return props.error ? '2px solid red' : '2px solid #58751b'}};
         box-shadow: ${props => {return props.error ? '0px 0px 10px red' : 'none'}};
         background-color: ${props => {return props.error ? '#2b090c' : '#131a06'}};
@@ -56,6 +57,9 @@ export const UsernameArea = styled.input`
         transition: 0.3s ease;
     }
     &::placeholder{
+        //20px
+        //28px
+        font-size: ${fluidTypography(320, 1920, 20, 28)};
         text-align: center;
         text-transform: uppercase;
         color: #404040;

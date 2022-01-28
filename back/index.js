@@ -10,8 +10,8 @@ const express = require('express'),
     jwt = require('jsonwebtoken'),
     io = new Server(server),
     mongoKey = config.get('mongoSecretKey'),
-    urlencodedParser = bodyParser.json()
-
+    urlencodedParser = bodyParser.json(),
+    cookieParser = require('cookie-parser')
 
 async function startServer(){
     mongoose.connect(mongoKey, {
@@ -34,7 +34,6 @@ async function startServer(){
 
 startServer()
 
-
 app.use(urlencodedParser, (req, res, next) =>{
     res.header("Access-Control-Allow-Origin", "*")
     res.header("Access-Control-Allow-Methods", "*")
@@ -45,8 +44,10 @@ app.use(urlencodedParser, (req, res, next) =>{
     next();
 })
 
+app.use(cookieParser('secret key'))
+
 app.post('/auth', (req, res)=>{
-    const {username} = req.body
+    const { username } = req.body
     console.log(username)
-    return res.status(200).send({message: '123'})
+    return res.cookie('myFirstCookie', 'WoW!').status(200).send({message: username})
 })
