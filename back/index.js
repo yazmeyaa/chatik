@@ -11,7 +11,8 @@ const express = require('express'),
     io = new Server(server),
     mongoKey = config.get('mongoSecretKey'),
     urlencodedParser = bodyParser.json(),
-    cookieParser = require('cookie-parser')
+    cookieParser = require('cookie-parser'),
+    auth = require('./middleware/auth/index')
 
 async function startServer(){
     mongoose.connect(mongoKey, {
@@ -46,8 +47,4 @@ app.use(urlencodedParser, (req, res, next) =>{
 
 app.use(cookieParser('secret key'))
 
-app.post('/auth', (req, res)=>{
-    const { username } = req.body
-    console.log(username)
-    return res.cookie('myFirstCookie', 'WoW!').status(200).send({message: username})
-})
+app.post('/auth', auth)

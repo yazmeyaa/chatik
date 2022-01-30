@@ -1,42 +1,31 @@
 import React, { useRef, useState } from 'react';
 import { Background, LoginWindow, UsernameArea, LoginButton, Text, RememberMe } from './styled.js'
-import Cookies from 'js-cookie'
 
 export default function Authentication() {
-    const userName = useRef()
     const [isLoading, setLoading] = useState(false)
-    const rememberMe = useRef()
     const [hasError, setError] = useState(false)
+    const userName = useRef()
+    const rememberMe = useRef()
     
     const handleLogin = async (data, remember) => {
-
         setLoading(true)
 
-        const response = await fetch('http://localhost:13943/auth', {
+        const token = await fetch('http://127.0.0.1:13943/auth', {
             method: 'POST',
-            mode: 'cors',
-            cache: 'no-cache',
-            credentials: 'same-origin',
-            headers: {
+            headers:{
                 'Content-Type': 'application/json'
             },
             body: JSON.stringify({
-                username: data,
-                rememberMe: remember
+                'username': data,
+                'rememberMe': remember
             })
         })
         .then((res)=>{
-            console.log(res.headers)
-            Cookies.get("")
             return res.json()
         })
-        .then((res)=>{
-            console.log(res)
-        })
-        .catch(e => console.error(e))
         setLoading(false)
-
-
+        console.log(token.JWT)
+        
     }
 
     return(
