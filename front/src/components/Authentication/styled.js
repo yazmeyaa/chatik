@@ -110,18 +110,23 @@ export const LoginButton = styled.button`
     }
 `
 
-export const RememberMe = styled.div`
+export const RememberMe = styled.label`
     &{
+        display: flex;
+        align-items: center;
+        margin-left: 0px;
         align-self: flex-start;
-        margin-left: 1rem;
     }
 
     &>input{
-        
+        width: 1.5rem;
+        height: 1.5rem;
     }
     
     &>span{
+        font-size: 1.2em;
         text-transform: uppercase;
+        user-select: none;
     }
 `
 //border idle #9e8318

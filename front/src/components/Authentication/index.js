@@ -1,16 +1,18 @@
-import React, { useRef, useState } from 'react';
+import React, { useRef, useState, useContext } from 'react';
 import { Background, LoginWindow, UsernameArea, LoginButton, Text, RememberMe } from './styled.js'
+import Token from '../../context.js';
 
 export default function Authentication() {
     const [isLoading, setLoading] = useState(false)
     const [hasError, setError] = useState(false)
     const userName = useRef()
     const rememberMe = useRef()
+    const {setToken} = useContext(Token)
     
     const handleLogin = async (data, remember) => {
         setLoading(true)
 
-        const token = await fetch('http://127.0.0.1:13943/auth', {
+        const fetchedToken = await fetch('http://127.0.0.1:13943/auth', {
             method: 'POST',
             headers:{
                 'Content-Type': 'application/json'
@@ -24,15 +26,13 @@ export default function Authentication() {
             return res.json()
         })
         setLoading(false)
-        console.log(token.JWT)
-        
+        setToken(fetchedToken.JWT)
+        localStorage.setItem('token', fetchedToken.JWT)
     }
 
     return(
             <Background>
                 <LoginWindow>
-
-
                     <Text>who are you?</Text>
                     <UsernameArea type='textarea'
                     autoComplete='off' 
