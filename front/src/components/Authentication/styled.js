@@ -129,5 +129,3 @@ export const RememberMe = styled.label`
         user-select: none;
     }
 `
-//border idle #9e8318
-//border+BG hovered #f7ce2a
