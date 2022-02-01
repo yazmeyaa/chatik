@@ -1,6 +1,6 @@
 import React, {useState, useEffect} from "react";
-import Authentication from './components/Authentication/index'
 import Token from "./context";
+import {Router} from './router'
 
 function App() {
   const [token, setToken] = useState(localStorage.getItem('token'))
@@ -32,7 +32,7 @@ function App() {
 
   return (
     <Token.Provider value={{token, setToken}}>
-      <Authentication />
+      <Router />
     </Token.Provider>
   );
 }

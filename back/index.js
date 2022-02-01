@@ -12,7 +12,8 @@ const express = require('express'),
     mongoKey = config.get('mongoSecretKey'),
     urlencodedParser = bodyParser.json(),
     auth = require('./middleware/auth/index'),
-    verifyToken = require('./middleware/verifyToken/index')
+    verifyToken = require('./middleware/verifyToken/index'),
+    registerNewUser = require('./middleware/reg')
 
 async function startServer(){
     mongoose.connect(mongoKey, {
@@ -49,3 +50,5 @@ app.use(urlencodedParser, (req, res, next) =>{
 app.post('/auth', auth)
 
 app.post('/token_verify', verifyToken)
+
+app.post('/register', registerNewUser)

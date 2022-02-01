@@ -1,5 +1,6 @@
 {
     "mongoSecretKey" : "mongodb+srv://yazmeyaa:enter1zexlol1@cluster0.ww228.mongodb.net",
     "PORT" : "13943",
-    "JWTsecretKey" : "75RwkqMkkx"
+    "JWTsecretKey" : "75RwkqMkkx",
+    "bcryptSecret": "KlK7Pk9a"
 }

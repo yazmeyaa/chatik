@@ -1,4 +1,5 @@
 import styled from 'styled-components'
+import { Link } from 'react-router-dom'
 
 const fluidTypography = (vMin, vMax, fMax, fMin) => {
     return `calc( ( 100vw - ${vMin}px ) / ( ${vMax} - ${vMin} ) * ( ${fMax} - ${fMin} ) + ${fMin}px )`
@@ -37,8 +38,9 @@ export const LoginWindow = styled.div`
 export const Text = styled.span`
     &{
         text-transform: uppercase;
+        user-select: none;
         font-weight: 500;
-        font-size: ${fluidTypography(320, 1920, 22, 30)};
+        font-size:  ${props => {return props.textSize ? fluidTypography(320, 1920, props.textSize.min, props.textSize.max) : '16px' }};
     }
 `
 
@@ -129,5 +131,15 @@ export const RememberMe = styled.label`
         user-select: none;
     }
 `
-//border idle #9e8318
-//border+BG hovered #f7ce2a
+
+export const LinkedText = styled.span`
+    &{
+        color: snow;
+        text-decoration: underline;
+        cursor: pointer;
+        user-select: none;
+    }
+    &:hover{
+        text-decoration: none;
+    }
+`
