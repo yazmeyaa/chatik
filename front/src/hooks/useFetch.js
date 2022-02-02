@@ -1,26 +1,24 @@
 import {useState} from 'react'
 
-const [isLoading, setLoading] = useState(false)
+const useFetch =  () => {
+    const [loading, setLoading] = useState(false)
 
-const useFetch = async (url, method, data) => {
-    setLoading(true)
-
-    try{
-        const fetchedData = await fetch(url, {
+    const request = async function(url, method, data){
+        setLoading(true)
+        const response = await fetch(url, {
             method: method,
             headers:{
                 'Content-Type': 'application/json'
             },
-            body: typeof data === string ? body : JSON.stringify(data)
+            body: data
         })
-    }
-    catch(e=>{
-        console.log(e.message)
-    })
-    setLoading(false)
-    return fetchedData.json()
 
-    
+        setLoading(false)
+        return response
+    }
+
+    return { loading, request }
 }
 
-export { useFetch, isLoading }
+
+export { useFetch }

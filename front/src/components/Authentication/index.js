@@ -1,37 +1,44 @@
 import React, { useRef, useState, useContext } from 'react';
 import { Background, LoginWindow, UsernameArea, LoginButton, Text, RememberMe, LinkedText } from './styled.js'
+import { useFetch } from '../../hooks/useFetch'
 import Token from '../../context.js';
 
-export default function Authentication() {
-    const [isRegistration, setAction] = useState(false)
-    const [isLoading, setLoading] = useState(false)
-    const [hasError, setError] = useState(false)
-    const userName = useRef()
-    const rememberMe = useRef()
-    const password = useRef()
-    const {setToken} = useContext(Token)
-    
-    const handleLogin = async (data, password, remember) => {
-        setLoading(true)
 
-        const fetchedToken = await fetch(`http://127.0.0.1:13943/${ isRegistration ? 'register' : 'auth' }`, {
-            method: 'POST',
-            headers:{
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify({
-                'username': data,
-                'password': password,
-                'rememberMe': remember
-            })
+export default function Authentication() {
+    ///////////////////////////////////////////////
+    const [isRegistration, setAction] = useState(false)
+    const [hasError, setError] = useState(false)
+    const  userName = useRef()
+    const rememberMe = useRef()
+    const password= useRef()
+    const {setToken} = useContext(Token)
+    const { loading, request } = useFetch()
+    
+
+    const handleLogin = async (data, password, remember) => {
+
+        const URL = `http://localhost:13943/${isRegistration ? 'register' : 'auth'}`
+        const METHOD = 'POST'
+        const BODY = JSON.stringify({
+            'username': data,
+            'password': password,
+            'rememberMe': remember
         })
+
+        await request(URL, METHOD, BODY)
         .then((res)=>{
             return res.json()
         })
-        setLoading(false)
-        setToken(fetchedToken.JWT)
-        localStorage.setItem('token', fetchedToken.JWT)
+        .then((res)=>{
+            if(!isRegistration){
+                setToken(res)
+                console.log('hi!'   )
+            }
+        })
+
     }
+
+    ///////////////////////////////////////////////
 
     return(
             <Background>
@@ -39,7 +46,7 @@ export default function Authentication() {
                     <Text textSize={{min: '18', max: '26'}}>{isRegistration ? 'Регистрация' : 'Авторизация'}</Text>
 
                     <UsernameArea 
-                        type='textarea'
+                    type='textarea'
                         autoComplete='off' 
                         placeholder='username' 
                         autoFocus
@@ -65,11 +72,11 @@ export default function Authentication() {
                     />
 
                     <RememberMe>
-                        <input type='checkbox' ref={rememberMe}/>
+                        <input type='checkbox' ref={rememberMe} />
                         <span>remember me</span>
                     </RememberMe>
 
-                    <LoginButton disabled={isLoading} type='submit' onClick={()=>{
+                    <LoginButton disabled={loading} type='submit' onClick={()=>{
                         
                         if(userName.current.value){
                             handleLogin(userName.current.value, password.current.value,  rememberMe.current.checked)

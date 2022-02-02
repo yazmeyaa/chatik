@@ -1,5 +1,4 @@
 import styled from 'styled-components'
-import { Link } from 'react-router-dom'
 
 const fluidTypography = (vMin, vMax, fMax, fMin) => {
     return `calc( ( 100vw - ${vMin}px ) / ( ${vMax} - ${vMin} ) * ( ${fMax} - ${fMin} ) + ${fMin}px )`
@@ -29,6 +28,7 @@ export const LoginWindow = styled.div`
         width: max-content;
         min-width: 300px;
         box-shadow: 0px 0px 15px yellowgreen;
+        transition: 0.5s;
     }
     & > * {
         margin-top: .5rem;
@@ -114,6 +114,8 @@ export const LoginButton = styled.button`
 
 export const RememberMe = styled.label`
     &{
+        font-size: 1.2em;
+        font-weight: normal;
         display: flex;
         align-items: center;
         margin-left: 0px;
@@ -121,14 +123,28 @@ export const RememberMe = styled.label`
     }
 
     &>input{
-        width: 1.5rem;
-        height: 1.5rem;
+        position: absolute;
+        z-index: -1;
+        opacity: 0;
     }
-    
+    &>span::before{
+        content: '';
+        display: inline-block;
+        width: 1em;
+        height: 1em;
+        border: 1px solid white;
+        margin-right: 6px;
+    }
+
+    &>input:checked + span::before {
+        background-color: blue;
+    }
+
     &>span{
-        font-size: 1.2em;
-        text-transform: uppercase;
+        display: inline-flex;
+        align-items: center;
         user-select: none;
+        text-transform: uppercase;
     }
 `
 
