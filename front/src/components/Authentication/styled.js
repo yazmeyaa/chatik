@@ -130,7 +130,6 @@ export const RememberMe = styled.label`
         text-transform: uppercase;
         user-select: none;
     }
-<<<<<<< HEAD
 `
 
 export const LinkedText = styled.span`
@@ -143,6 +142,4 @@ export const LinkedText = styled.span`
     &:hover{
         text-decoration: none;
     }
-=======
->>>>>>> a8309bc11ef67732024a5f145b75fb1fd9d228a7
-`
+    `
