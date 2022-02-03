@@ -22,6 +22,10 @@ function App() {
   }
 
   useEffect(()=>{
+    console.log(token)
+  },[token])
+
+  useEffect(()=>{
     window.addEventListener('storage', trustToken, false)
 
     if(token){

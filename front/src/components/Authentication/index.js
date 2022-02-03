@@ -9,20 +9,18 @@ export default function Authentication() {
     const [isRegistration, setAction] = useState(false)
     const [hasError, setError] = useState(false)
     const  userName = useRef()
-    const rememberMe = useRef()
     const password= useRef()
     const {setToken} = useContext(Token)
     const { loading, request } = useFetch()
     
 
-    const handleLogin = async (data, password, remember) => {
+    const handleLogin = async (data, password) => {
 
         const URL = `http://localhost:13943/${isRegistration ? 'register' : 'auth'}`
         const METHOD = 'POST'
         const BODY = JSON.stringify({
             'username': data,
-            'password': password,
-            'rememberMe': remember
+            'password': password
         })
 
         await request(URL, METHOD, BODY)
@@ -30,10 +28,9 @@ export default function Authentication() {
             return res.json()
         })
         .then((res)=>{
-            if(!isRegistration){
-                setToken(res)
-                console.log('hi!'   )
-            }
+            console.log(res.JWT)
+                setToken(res.JWT)
+                localStorage.setItem('token', res.JWT)
         })
 
     }
@@ -59,7 +56,7 @@ export default function Authentication() {
                             }
                     }} />
                     <UsernameArea
-                    type='textarea'
+                    type='password'
                     error={hasError}
                     autoComplete='off'
                     placeholder='password'
@@ -71,15 +68,10 @@ export default function Authentication() {
                     }}
                     />
 
-                    <RememberMe>
-                        <input type='checkbox' ref={rememberMe} />
-                        <span>remember me</span>
-                    </RememberMe>
-
                     <LoginButton disabled={loading} type='submit' onClick={()=>{
                         
                         if(userName.current.value){
-                            handleLogin(userName.current.value, password.current.value,  rememberMe.current.checked)
+                            handleLogin(userName.current.value, password.current.value)
                         } else{
                             setError(true)
                         }
