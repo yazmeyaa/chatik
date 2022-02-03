@@ -1,29 +1,21 @@
 import React, {useState, useEffect} from "react";
 import Token from "./context";
 import {Router} from './router'
+import { useFetch } from "./hooks/useFetch";
 
 function App() {
   const [token, setToken] = useState(localStorage.getItem('token'))
+  const {loading, request} = useFetch()
 
-  const trustToken = () => {
-      fetch('http://127.0.0.1:13943/token_verify',{
-        method: 'POST',
-        headers:{
-          'Content-Type': 'application/json'
-        },
-        body: JSON.stringify({'token': token})
-      })
-      .then((res)=>{
-        if(res.status === 400){
+  const trustToken = (JWT) => {
+      request('http://localhost:13943/verify', 'POST', JSON.stringify({'token': JWT}))
+      .then((response)=>{
+        if(response.status === 400){
           setToken('')
           localStorage.removeItem('token')
         }
       })
   }
-
-  useEffect(()=>{
-    console.log(token)
-  },[token])
 
   useEffect(()=>{
     window.addEventListener('storage', trustToken, false)
