@@ -11,7 +11,11 @@ export const Router = () => {
     return(
         <Routes>
             <Route path='/' element={<MainPage />} />
-            <Route path='/auth' element={<Authentication/>} />
+            <Route path='/auth' element={
+                <OnlyWithoutToken>
+                    <Authentication/>
+                </OnlyWithoutToken>
+            } />
             <Route path='/chat' element={
             <RequiredAuth>
                 <Chat />
@@ -33,6 +37,15 @@ function RequiredAuth({children}){
     const {token} = useContext(Token)
     if(!token){
         return <Navigate to='/auth' />
+    }
+
+    return children
+}
+
+function OnlyWithoutToken({children}){
+    const {token} = useContext(Token)
+    if(token){
+        return <Navigate to='/rooms' />
     }
 
     return children

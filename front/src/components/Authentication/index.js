@@ -3,8 +3,6 @@ import { Background, LoginWindow, UsernameArea, LoginButton, Text, LinkedText, A
 import { useFetch } from '../../hooks/useFetch'
 import Token from '../../context.js';
 import { useFormik } from 'formik'
-import * as Yup from 'yup'
-
 
 
 export default function Authentication() {

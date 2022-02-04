@@ -5,7 +5,7 @@ import { useFetch } from "./hooks/useFetch";
 
 function App() {
   const [token, setToken] = useState(localStorage.getItem('token'))
-  const {loading, request} = useFetch()
+  const {request} = useFetch()
 
   const trustToken = (JWT) => {
       request('token_verify', 'POST', JSON.stringify({'token': JWT}))
