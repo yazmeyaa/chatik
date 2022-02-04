@@ -159,3 +159,12 @@ export const LinkedText = styled.span`
         text-decoration: none;
     }
     `
+
+    export const AuthForm = styled.form`
+        &{
+            display: grid;
+            grid-template-columns: 1fr;
+            grid-template-rows: repeat(1fr);
+            grid-gap: 1rem;
+        }
+    `
