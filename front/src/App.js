@@ -8,7 +8,7 @@ function App() {
   const {loading, request} = useFetch()
 
   const trustToken = (JWT) => {
-      request('http://localhost:13943/verify', 'POST', JSON.stringify({'token': JWT}))
+      request('token_verify', 'POST', JSON.stringify({'token': JWT}))
       .then((response)=>{
         if(response.status === 400){
           setToken('')
@@ -21,7 +21,7 @@ function App() {
     window.addEventListener('storage', trustToken, false)
 
     if(token){
-      trustToken()
+      trustToken(token)
   }
   // eslint-disable-next-line react-hooks/exhaustive-deps
 }, [])

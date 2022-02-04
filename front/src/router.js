@@ -5,12 +5,18 @@ import Authentication from './components/Authentication'
 import RoomList from './components/Rooms'
 import Token from './context'
 import Chat from './components/Chat'
+import MainPage from './components/MainPage'
 
 export const Router = () => {
     return(
         <Routes>
-            <Route path='/' element={<Chat />} /> 
-            <Route path='/auth' element={<Authentication />}/>
+            <Route path='/' element={<MainPage />} />
+            <Route path='/auth' element={<Authentication/>} />
+            <Route path='/chat' element={
+            <RequiredAuth>
+                <Chat />
+            </RequiredAuth>
+        }/> 
             <Route path='/rooms' element={
                 <RequiredAuth>
                     <RoomList />

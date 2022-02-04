@@ -13,15 +13,19 @@ export default function Authentication() {
     
 
     async function handleSubmit(login, password){
-        request('http://localhost:13943/auth', 'POST', JSON.stringify({
+        request('auth', 'POST', JSON.stringify({
             username: login.current.value,
             password: password.current.value
         }))
-        .then((response)=>{
+        .then(async (response)=>{
             if(response.status === 200){
-                await response.json()
-                // Добавить здесь новую специальную функцию записи токена.
+                return response.json()
             }
+        })
+        .then(response => {
+            console.log(response.JWT)
+            setToken(response.JWT)
+            localStorage.setItem('token', response.JWT)
         })
     }
 
@@ -56,7 +60,9 @@ export default function Authentication() {
                     }}
                     />
 
-                    <LoginButton disabled={loading} type='submit'> Войти </LoginButton>
+                    <LoginButton disabled={loading} type='submit' onClick={()=>{
+                        handleSubmit(userName, password)
+                        }}> Войти </LoginButton>
                     <Text textSize={{min: '12', max: '16'}}>Ещё не зарегистрированы? <LinkedText> зарегистрироваться</LinkedText></Text>
 
                 </LoginWindow>
